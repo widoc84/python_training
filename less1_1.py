@@ -4,6 +4,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 from group import Group
+from user import User
 
 
 class UntitledTestCase(unittest.TestCase):
@@ -16,13 +17,44 @@ class UntitledTestCase(unittest.TestCase):
         self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.create_group(wd, Group(name="test1", header="testheader1", footer="testfooter1"))
+        self.add_user(wd, User(username="name", last_name="last_name", nickname="nicknames", title="title", tel="7777777",
+                 mail="test@ya.ru"))
         self.delete_group(wd)
         self.logout(wd)
+
+    def add_user(self, wd, user):
+        wd.find_element_by_link_text("add new").click()#openuser
+        #edit form
+        wd.find_element_by_name("firstname").click()
+        wd.find_element_by_name("firstname").clear()
+        wd.find_element_by_name("firstname").send_keys(user.username)
+        wd.find_element_by_name("lastname").click()
+        wd.find_element_by_name("lastname").clear()
+        wd.find_element_by_name("lastname").send_keys(user.last_name)
+        wd.find_element_by_name("nickname").click()
+        wd.find_element_by_name("nickname").clear()
+        wd.find_element_by_name("nickname").send_keys(user.nickname)
+        wd.find_element_by_name("title").click()
+        wd.find_element_by_name("title").clear()
+        wd.find_element_by_name("title").send_keys(user.title)
+        wd.find_element_by_name("theform").click()
+        wd.find_element_by_name("home").click()
+        wd.find_element_by_name("home").clear()
+        wd.find_element_by_name("home").send_keys(user.tel)
+        wd.find_element_by_name("email").click()
+        wd.find_element_by_name("email").clear()
+        wd.find_element_by_name("email").send_keys(user.mail)
+        wd.find_element_by_xpath(
+            "(.//*[normalize-space(text()) and normalize-space(.)='Notes:'])[1]/following::input[1]").click()#confirm
+        wd.find_element_by_link_text("home").click()
+        time.sleep(5)#check
+
 
     def logout(self, wd):
         wd.find_element_by_link_text("Logout").click()
 
     def delete_group(self, wd):
+        wd.find_element_by_link_text("groups").click()#open groups
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_name("delete").click()
         wd.find_element_by_link_text("groups").click()
@@ -71,6 +103,17 @@ class UntitledTestCase(unittest.TestCase):
         except NoAlertPresentException as e:
             return False
         return True
+
+    def close_alert_and_get_its_text(self):
+        try:
+            alert = self.driver.switch_to_alert()
+            alert_text = alert.text
+            if self.accept_next_alert:
+                alert.accept()
+            else:
+                alert.dismiss()
+            return alert_text
+        finally: self.accept_next_alert = True
 
     def tearDown(self):
         self.wd.quit()
