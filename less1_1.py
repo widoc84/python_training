@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
+from group import Group
 
 
 class UntitledTestCase(unittest.TestCase):
@@ -14,7 +15,7 @@ class UntitledTestCase(unittest.TestCase):
         wd = self.wd
         self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
-        self.create_group(wd, group_name="test1", group_header="testheader1", group_footer="testfooter1")
+        self.create_group(wd, Group(name="test1", header="testheader1", footer="testfooter1"))
         self.delete_group(wd)
         self.logout(wd)
 
@@ -27,19 +28,19 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element_by_link_text("groups").click()
         time.sleep(5)
 
-    def create_group(self, wd, group_name, group_header, group_footer):
+    def create_group(self, wd, group):
         wd.find_element_by_link_text("groups").click()#open groups
         wd.find_element_by_name("new").click()#click on button create group
         #edit form
         wd.find_element_by_name("group_name").click()
         wd.find_element_by_name("group_name").clear()
-        wd.find_element_by_name("group_name").send_keys(group_name)
+        wd.find_element_by_name("group_name").send_keys(group.name)
         wd.find_element_by_name("group_header").click()
         wd.find_element_by_name("group_header").clear()
-        wd.find_element_by_name("group_header").send_keys(group_header)
+        wd.find_element_by_name("group_header").send_keys(group.header)
         wd.find_element_by_name("group_footer").click()
         wd.find_element_by_name("group_footer").clear()
-        wd.find_element_by_name("group_footer").send_keys(group_footer)
+        wd.find_element_by_name("group_footer").send_keys(group.footer)
         wd.find_element_by_name("submit").click()#confirm create group
         wd.find_element_by_link_text("groups").click()#open groups
         time.sleep(5)#wait for check
