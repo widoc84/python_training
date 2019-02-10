@@ -5,14 +5,13 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
-import unittest
+import unittest, time, re
 
 
 class UntitledTestCase(unittest.TestCase):
     def setUp(self):
-        self.wd = webdriver.Firefox()
+        self.wd = webdriver.Chrome()
         self.wd.implicitly_wait(30)
-
 
     def test_untitled_test_case(self):
         wd = self.wd
@@ -22,20 +21,25 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element_by_name("user").send_keys("admin")
         wd.find_element_by_name("pass").clear()
         wd.find_element_by_name("pass").send_keys("secret")
-        wd.find_element_by_xpath(
-            "(.//*[normalize-space(text()) and normalize-space(.)='Password:'])[1]/following::input[2]").click()
+        wd.find_element_by_id("LoginForm").submit()
         wd.find_element_by_link_text("groups").click()
         wd.find_element_by_name("new").click()
         wd.find_element_by_name("group_name").click()
         wd.find_element_by_name("group_name").clear()
-        wd.find_element_by_name("group_name").send_keys("test")
+        wd.find_element_by_name("group_name").send_keys("test1")
         wd.find_element_by_name("group_header").click()
         wd.find_element_by_name("group_header").clear()
-        wd.find_element_by_name("group_header").send_keys("test")
+        wd.find_element_by_name("group_header").send_keys("test1")
         wd.find_element_by_name("group_footer").click()
         wd.find_element_by_name("group_footer").clear()
-        wd.find_element_by_name("group_footer").send_keys("test")
+        wd.find_element_by_name("group_footer").send_keys("test1")
         wd.find_element_by_name("submit").click()
+        wd.find_element_by_link_text("groups").click()
+        time.sleep(5)
+        wd.find_element_by_name("selected[]").click()
+        wd.find_element_by_name("delete").click()
+        wd.find_element_by_link_text("groups").click()
+        time.sleep(5)
         wd.find_element_by_link_text("Logout").click()
 
     def is_element_present(self, how, what):
@@ -54,7 +58,6 @@ class UntitledTestCase(unittest.TestCase):
 
     def tearDown(self):
         self.wd.quit()
-
 
 if __name__ == "__main__":
     unittest.main()
