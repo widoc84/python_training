@@ -13,13 +13,13 @@ class UntitledTestCase(unittest.TestCase):
 
     def test_add_user(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.add_user(wd, User(username="name", last_name="last_name", nickname="nicknames", title="title", tel="7777777",
                  mail="test@ya.ru"))
         self.logout(wd)
 
-    def add_user(self, wd, user):
+    def add_user(self, user):
+        wd = self.wd
         wd.find_element_by_link_text("add new").click()#openuser
         #edit form
         wd.find_element_by_name("firstname").click()
@@ -46,10 +46,13 @@ class UntitledTestCase(unittest.TestCase):
         time.sleep(5)#check
 
 
-    def logout(self, wd):
+    def logout(self):
+        wd = self.wd
         wd.find_element_by_link_text("Logout").click()
 
-    def login(self, wd, username, password):
+    def login(self, username, password):
+        wd = self.wd
+        wd.get("http://localhost/addressbook/group.php")
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
@@ -57,9 +60,6 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element_by_name("pass").send_keys(password)
 
         wd.find_element_by_id("LoginForm").submit()
-
-    def open_home_page(self, wd):
-        wd.get("http://localhost/addressbook/group.php")
 
 
     def is_element_present(self, how, what):
@@ -75,17 +75,6 @@ class UntitledTestCase(unittest.TestCase):
         except NoAlertPresentException as e:
             return False
         return True
-
-    def close_alert_and_get_its_text(self):
-        try:
-            alert = self.driver.switch_to_alert()
-            alert_text = alert.text
-            if self.accept_next_alert:
-                alert.accept()
-            else:
-                alert.dismiss()
-            return alert_text
-        finally: self.accept_next_alert = True
 
     def tearDown(self):
         self.wd.quit()
