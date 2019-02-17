@@ -7,6 +7,10 @@ def test_add_group(app):
     app.group.create(Group(name="test1", header="testheader1", footer="testfooter1"))
     app.session.logout()
 
+def test_edit_group(app):
+    app.session.login(username="admin", password="secret")
+    app.group.edit(Group(name="test1edit", header="testheader1edit", footer="testfooter1edit"))
+    app.session.logout()
 
 def test_delete_group(app):
     app.session.login(username="admin", password="secret")
