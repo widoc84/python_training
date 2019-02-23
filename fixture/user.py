@@ -18,7 +18,6 @@ class UH:
     def change(self, user):
         wd = self.app.wd
         wd.find_element_by_link_text("home").click()
-#        wd.find_element_by_id("19").click()
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
         add.edit_user(self, user.username, user.last_name, user.nickname, user.title, user.tel, user.mail)
         wd.find_element_by_name("update").click()

@@ -21,18 +21,10 @@ user_edit = {
 
 
 def test_add_user(app):
-    app.session.login(username="admin", password="secret")
     app.user.add(User(**user_begin))
-    app.session.logout()
-
 
 def test_edit_user(app):
-    app.session.login(username="admin", password="secret")
     app.user.change(User(**user_edit))
-    app.session.logout()
-
 
 def test_delete_user(app):
-    app.session.login(username="admin", password="secret")
     app.user.delete()
-    app.session.logout()

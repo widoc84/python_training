@@ -14,16 +14,11 @@ group_edit = {
 }
 
 def test_add_group(app):
-    app.session.login(username="admin", password="secret")
     app.group.create(Group(**group_begin))
-    app.session.logout()
 
 def test_edit_group(app):
-    app.session.login(username="admin", password="secret")
     app.group.edit(Group(**group_edit))
-    app.session.logout()
 
 def test_delete_group(app):
-    app.session.login(username="admin", password="secret")
     app.group.delete()
-    app.session.logout()
+

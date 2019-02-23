@@ -8,12 +8,18 @@ from fixture.additional import MH
 class Applicaton:
     def __init__(self):
         self.wd = webdriver.Chrome()
-        self.wd.implicitly_wait(30)
+        self.wd.implicitly_wait(60)
         self.session = SH(self)
         self.group = GH(self)
         self.user = UH(self)
         self.additional = MH(self)
 
+    def is_valid(self):
+        try:
+            self.wd.current_url
+            return True
+        except:
+            return False
 
     def destroy(self):
         self.wd.quit()

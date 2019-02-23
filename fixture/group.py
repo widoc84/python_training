@@ -21,7 +21,6 @@ class GH:
         wd.find_element_by_name("new").click()
 #edit form
         add.edit_group(self,group.name, group.header, group.footer)
-        time.sleep(5)
         wd.find_element_by_name("submit").click()
         wd.find_element_by_link_text("groups").click()
 #wait for check
