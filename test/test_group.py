@@ -2,15 +2,15 @@
 from model.group import Group
 
 group_begin = {
-    "name":"test1",
-    "header":"testheader1",
-    "footer":"testfooter1"
+    "name": "test1",
+    "header": "testheader1",
+    "footer": "testfooter1"
 }
 
 group_edit = {
-    "name":"test1edit",
-    "header":"testheader1edit",
-    "footer":"testfooter1edit"
+    "name": "test1edit",
+    "header": "testheader1edit",
+    "footer": "testfooter1edit"
 }
 
 def test_add_group(app):

@@ -10,13 +10,7 @@ class UH:
         wd = self.app.wd
         wd.find_element_by_link_text("add new").click()#openuser
         #edit form
-        add.change_element(self, "firstname", user.username)
-        add.change_element(self, "lastname", user.last_name)
-        add.change_element(self, "nickname", user.nickname)
-        add.change_element(self, "title", user.title)
-        wd.find_element_by_name("theform").click()
-        add.change_element(self, "home", user.tel)
-        add.change_element(self, "email", user.mail)
+        add.edit_user(self, user.username, user.last_name, user.nickname, user.title, user.tel, user.mail)
         wd.find_element_by_xpath("//input[21]").click()#confirm
         wd.find_element_by_link_text("home").click()
         time.sleep(5)#check
@@ -26,13 +20,7 @@ class UH:
         wd.find_element_by_link_text("home").click()
 #        wd.find_element_by_id("19").click()
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
-        add.change_element(self, "firstname", user.username)
-        add.change_element(self, "lastname", user.last_name)
-        add.change_element(self, "nickname", user.nickname)
-        add.change_element(self, "title", user.title)
-#        wd.find_element_by_name("theform").click()
-        add.change_element(self, "home", user.tel)
-        add.change_element(self, "email", user.mail)
+        add.edit_user(self, user.username, user.last_name, user.nickname, user.title, user.tel, user.mail)
         wd.find_element_by_name("update").click()
         wd.find_element_by_link_text("home").click()
         time.sleep(5)#check

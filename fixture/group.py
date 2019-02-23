@@ -20,9 +20,8 @@ class GH:
         wd.find_element_by_link_text("groups").click()
         wd.find_element_by_name("new").click()
 #edit form
-        add.change_element(self, "group_name", group.name)
-        add.change_element(self, "group_header", group.header)
-        add.change_element(self, "group_footer", group.footer)
+        add.edit_group(self,group.name, group.header, group.footer)
+        time.sleep(5)
         wd.find_element_by_name("submit").click()
         wd.find_element_by_link_text("groups").click()
 #wait for check
@@ -33,9 +32,7 @@ class GH:
         wd.find_element_by_link_text("groups").click()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_name("edit").click()
-        add.change_element(self, "group_name", group.name)
-        add.change_element(self, "group_header", group.header)
-        add.change_element(self, "group_footer", group.footer)
+        add.edit_group(self, group.name, group.header, group.footer)
         wd.find_element_by_name("update").click()
         wd.find_element_by_link_text("groups").click()
         time.sleep(5)
