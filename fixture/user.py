@@ -32,3 +32,8 @@ class UH:
         wd.switch_to_alert().accept()
         wd.find_element_by_link_text("home").click()
         time.sleep(5)#check
+
+    def count(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("home").click()
+        return len(wd.find_elements_by_name("selected[]"))

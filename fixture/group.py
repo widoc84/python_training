@@ -35,3 +35,8 @@ class GH:
         wd.find_element_by_name("update").click()
         wd.find_element_by_link_text("groups").click()
         time.sleep(5)
+
+    def count(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("groups").click()
+        return len(wd.find_elements_by_name("selected[]"))

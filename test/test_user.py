@@ -24,7 +24,22 @@ def test_add_user(app):
     app.user.add(User(**user_begin))
 
 def test_edit_user(app):
+    if app.user.count() == 0:
+        app.user.add(User(**user_begin))
     app.user.change(User(**user_edit))
 
 def test_delete_user(app):
+    if app.user.count() == 0:
+        app.user.add(User(**user_begin))
+    app.user.delete()
+
+def test_count_edit_user(app):
+    if app.user.count() == 0:
+        app.user.add(User(**user_begin))
+    app.user.change(User(**user_edit))
+    app.user.delete()
+
+def test_count_delete_user(app):
+    if app.user.count() == 0:
+        app.user.add(User(**user_begin))
     app.user.delete()
