@@ -9,34 +9,39 @@ class GH:
 
     def delete(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("groups").click()
+        self.open_group_page()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_name("delete").click()
-        wd.find_element_by_link_text("groups").click()
+        self.open_group_page()
         time.sleep(5)
 
     def create(self, group):
         wd = self.app.wd
-        wd.find_element_by_link_text("groups").click()
+        self.open_group_page()
         wd.find_element_by_name("new").click()
 #edit form
         add.edit_group(self,group.name, group.header, group.footer)
         wd.find_element_by_name("submit").click()
-        wd.find_element_by_link_text("groups").click()
+        self.open_group_page()
 #wait for check
         time.sleep(5)
 
+    def open_group_page(self):
+        wd = self.app.wd
+        if not (wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0):
+            wd.find_element_by_link_text("groups").click()
+
     def edit(self, group):
         wd = self.app.wd
-        wd.find_element_by_link_text("groups").click()
+        self.open_group_page()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_name("edit").click()
         add.edit_group(self, group.name, group.header, group.footer)
         wd.find_element_by_name("update").click()
-        wd.find_element_by_link_text("groups").click()
+        self.open_group_page()
         time.sleep(5)
 
     def count(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("groups").click()
+        self.open_group_page()
         return len(wd.find_elements_by_name("selected[]"))
