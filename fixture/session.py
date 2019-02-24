@@ -1,3 +1,4 @@
+import time
 
 class SH:
 
@@ -21,7 +22,7 @@ class SH:
 
     def ensure_logout(self):
         wd = self.app.wd
-        if len(wd.find_element_by_link_text("Logout")) > 0:
+        if len(wd.find_elements_by_link_text("Logout")) > 0:
             self.logout()
         else:
             pass
@@ -37,7 +38,7 @@ class SH:
 
     def is_logged_in(self):
         wd = self.app.wd
-        return len(wd.find_element_by_link_text("Logout")) > 0
+        return len(wd.find_elements_by_link_text("Logout")) > 0
 
 
     def is_logged_in_as(self, username):
