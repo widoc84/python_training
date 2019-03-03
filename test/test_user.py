@@ -24,8 +24,8 @@ def test_add_user(app):
     old_user = app.user.get_user_list()
     user = User(**user_begin)
     app.user.add(user)
+    assert len(old_user) + 1 == app.user.count()
     new_user = app.user.get_user_list()
-    assert len(old_user) + 1 == len(new_user)
     old_user.append(user)
     assert sorted(old_user, key=User.id_or_nmx) == sorted(new_user, key=User.id_or_nmx)
 
@@ -36,8 +36,8 @@ def test_edit_user(app):
     user = User(**user_edit)
     user.id = old_user[0].id
     app.user.change(user)
+    assert len(old_user) == app.user.count()
     new_user = app.user.get_user_list()
-    assert len(old_user) == len(new_user)
     old_user[0] = user
     assert sorted(old_user, key=User.id_or_nmx) == sorted(new_user, key=User.id_or_nmx)
 
@@ -57,8 +57,8 @@ def test_count_edit_user(app):
     user = User(**user_edit)
     user.id = old_user[0].id
     app.user.change(User(**user_edit))
+    assert len(old_user) == app.user.count()
     new_user = app.user.get_user_list()
-    assert len(old_user) == len(new_user)
     old_user[0] = user
     assert sorted(old_user, key=User.id_or_nmx) == sorted(new_user, key=User.id_or_nmx)
     app.user.delete()
