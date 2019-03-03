@@ -1,5 +1,6 @@
 import time
 from fixture.additional import MH as add
+from model.user import User
 
 
 class UH:
@@ -13,7 +14,7 @@ class UH:
         add.edit_user(self, user.username, user.last_name, user.nickname, user.title, user.tel, user.mail)
         wd.find_element_by_xpath("//input[21]").click()#confirm
         self.open_home_page()
-        time.sleep(5)#check
+        time.sleep(2)#check
 
     def change(self, user):
         wd = self.app.wd
@@ -22,7 +23,7 @@ class UH:
         add.edit_user(self, user.username, user.last_name, user.nickname, user.title, user.tel, user.mail)
         wd.find_element_by_name("update").click()
         self.open_home_page()
-        time.sleep(5)#check
+        time.sleep(2)#check
 
     def delete(self):
         wd = self.app.wd
@@ -31,7 +32,7 @@ class UH:
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
         self.open_home_page()
-        time.sleep(5)#check
+        time.sleep(2)#check
 
     def count(self):
         wd = self.app.wd
@@ -42,3 +43,17 @@ class UH:
         wd = self.app.wd
         if not (len(wd.find_elements_by_name("Send e-Mail")) > 0):
             wd.find_element_by_link_text("home").click()
+
+    def get_user_list(self):
+        wd = self.app.wd
+        self.open_home_page()
+        users=[]
+        for element in wd.find_elements_by_css_selector("tr"):
+            if element.text != 'Last name First name Address All e-mail All phones':
+                last = element.find_elements_by_tag_name("td")[1].text
+                user = element.find_elements_by_tag_name("td")[2].text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                users.append(User(last_name=last, username=user, id=id))
+            else:
+                pass
+        return users

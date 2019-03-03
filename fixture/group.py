@@ -1,6 +1,6 @@
 import time
 from fixture.additional import MH as add
-
+from model.group import Group
 
 
 class GH:
@@ -13,7 +13,7 @@ class GH:
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_name("delete").click()
         self.open_group_page()
-        time.sleep(5)
+        time.sleep(2)
 
     def create(self, group):
         wd = self.app.wd
@@ -24,7 +24,7 @@ class GH:
         wd.find_element_by_name("submit").click()
         self.open_group_page()
 #wait for check
-        time.sleep(5)
+        time.sleep(2)
 
     def open_group_page(self):
         wd = self.app.wd
@@ -39,9 +39,20 @@ class GH:
         add.edit_group(self, group.name, group.header, group.footer)
         wd.find_element_by_name("update").click()
         self.open_group_page()
-        time.sleep(5)
+        time.sleep(2)
 
     def count(self):
         wd = self.app.wd
         self.open_group_page()
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_group_list(self):
+        wd = self.app.wd
+        self.open_group_page()
+        groups=[]
+        for element in wd.find_elements_by_css_selector("span.group"):
+            text = element.text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            groups.append(Group(name=text,id=id))
+        return groups
+

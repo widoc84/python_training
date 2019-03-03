@@ -8,7 +8,7 @@ from fixture.additional import MH
 class Applicaton:
     def __init__(self):
         self.wd = webdriver.Chrome()
-        self.wd.implicitly_wait(15)
+        self.wd.implicitly_wait(1)
         self.session = SH(self)
         self.group = GH(self)
         self.user = UH(self)
