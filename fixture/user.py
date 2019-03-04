@@ -17,25 +17,27 @@ class UH:
         time.sleep(2)#check
         self.user_cache = None
 
-    def change(self, user):
+    def change_by_index(self,index, user):
         wd = self.app.wd
         self.open_home_page()
-        wd.find_element_by_xpath("//img[@alt='Edit']").click()
+        wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
         add.edit_user(self, user.username, user.last_name, user.nickname, user.title, user.tel, user.mail)
         wd.find_element_by_name("update").click()
         self.open_home_page()
         time.sleep(2)#check
         self.user_cache = None
 
-    def delete(self):
+
+    def delete_by_index(self, indexid):
         wd = self.app.wd
         self.open_home_page()
-        wd.find_element_by_id("MassCB").click()
+        wd.find_element_by_id(str(indexid)).click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
         self.open_home_page()
         time.sleep(2)#check
         self.user_cache = None
+
 
     def count(self):
         wd = self.app.wd

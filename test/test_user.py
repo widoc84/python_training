@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from model.user import User
+from random import randrange
 
 user_begin = {
     "last_name": "last_name",
@@ -33,40 +34,24 @@ def test_edit_user(app):
     if app.user.count() == 0:
         app.user.add(User(**user_begin))
     old_user = app.user.get_user_list()
+    index = randrange(1,len(old_user))
     user = User(**user_edit)
-    user.id = old_user[0].id
-    app.user.change(user)
+    user.id = old_user[index].id
+    app.user.change_by_index(index, user)
     assert len(old_user) == app.user.count()
     new_user = app.user.get_user_list()
-    old_user[0] = user
+    old_user[index] = user
     assert sorted(old_user, key=User.id_or_nmx) == sorted(new_user, key=User.id_or_nmx)
 
 
 def test_delete_user(app):
     if app.user.count() == 0:
         app.user.add(User(**user_begin))
-    app.user.delete()
-    new_user = app.user.get_user_list()
-    old_user = []
-    assert sorted(old_user, key=User.id_or_nmx) == sorted(new_user, key=User.id_or_nmx)
-
-def test_count_edit_user(app):
-    if app.user.count() == 0:
-        app.user.add(User(**user_begin))
     old_user = app.user.get_user_list()
-    user = User(**user_edit)
-    user.id = old_user[0].id
-    app.user.change(User(**user_edit))
-    assert len(old_user) == app.user.count()
+    index = randrange(1,len(old_user))
+    indexid = old_user[index].id
+    app.user.delete_by_index(indexid)
     new_user = app.user.get_user_list()
-    old_user[0] = user
+    old_user[index:index+1] = []
     assert sorted(old_user, key=User.id_or_nmx) == sorted(new_user, key=User.id_or_nmx)
-    app.user.delete()
 
-def test_count_delete_user(app):
-    if app.user.count() == 0:
-        app.user.add(User(**user_begin))
-    app.user.delete()
-    new_user = app.user.get_user_list()
-    old_user = []
-    assert sorted(old_user, key=User.id_or_nmx) == sorted(new_user, key=User.id_or_nmx)

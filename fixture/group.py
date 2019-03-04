@@ -8,13 +8,17 @@ class GH:
         self.app = app
 
     def delete(self):
+        self.delete_by_index(0)
+
+    def delete_by_index(self, index):
         wd = self.app.wd
         self.open_group_page()
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
         wd.find_element_by_name("delete").click()
         self.open_group_page()
         time.sleep(2)
         self.group_cache = None
+
 
     def create(self, group):
         wd = self.app.wd
@@ -33,16 +37,19 @@ class GH:
         if not (wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0):
             wd.find_element_by_link_text("groups").click()
 
-    def edit(self, group):
+    def edit_by_index(self, index, group):
         wd = self.app.wd
         self.open_group_page()
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
         wd.find_element_by_name("edit").click()
         add.edit_group(self, group.name, group.header, group.footer)
         wd.find_element_by_name("update").click()
         self.open_group_page()
         time.sleep(2)
         self.group_cache = None
+
+    def edit(self, group):
+        self.edit_by_index(0)
 
     def count(self):
         wd = self.app.wd

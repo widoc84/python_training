@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from model.group import Group
+from random import randrange
 
 group_begin = {
     "name": "test1",
@@ -26,46 +27,24 @@ def test_edit_group(app):
     if app.group.count() == 0:
         app.group.create(Group(**group_begin))
     old_groups = app.group.get_group_list()
+    index = randrange(len(old_groups))
     group = Group(**group_edit)
-    group.id = old_groups[0].id
-    app.group.edit(Group(**group_edit))
+    group.id = old_groups[index].id
+    app.group.edit_by_index(index, group)
     assert len(old_groups) == app.group.count()
     new_groups = app.group.get_group_list()
-    old_groups[0] = group
+    old_groups[index] = group
     assert sorted(old_groups, key=Group.id_or_nmx) == sorted(new_groups, key=Group.id_or_nmx)
 
 def test_delete_group(app):
     if app.group.count() == 0:
         app.group.create(Group(**group_begin))
     old_groups = app.group.get_group_list()
-    app.group.delete()
+    index = randrange(len(old_groups))
+    app.group.delete_by_index(index)
     assert len(old_groups) - 1 == app.group.count()
     new_groups = app.group.get_group_list()
-    old_groups[0:1] = []
-    assert old_groups == new_groups
-
-def test_check_count_edit_group(app):
-    if app.group.count() == 0:
-        app.group.create(Group(**group_begin))
-    old_groups = app.group.get_group_list()
-    group = Group(**group_edit)
-    group.id = old_groups[0].id
-    app.group.edit(Group(**group_edit))
-    assert len(old_groups) == app.group.count()
-    new_groups = app.group.get_group_list()
-    old_groups[0] = group
-    assert sorted(old_groups, key=Group.id_or_nmx) == sorted(new_groups, key=Group.id_or_nmx)
-    app.group.delete()
-
-def test_check_count_delete_group(app):
-    if app.group.count() == 0:
-        app.group.create(Group(**group_begin))
-    old_groups = app.group.get_group_list()
-    app.group.delete()
-    new_groups = app.group.get_group_list()
-    assert len(old_groups) - 1 == app.group.count()
-    new_groups = app.group.get_group_list()
-    old_groups[0:1] = []
+    old_groups[index:index+1] = []
     assert old_groups == new_groups
 
 
