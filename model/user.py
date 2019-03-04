@@ -15,7 +15,8 @@ class User:
         return "%s:%s:%s" % (self.id,self.username,self.last_name)
 
     def __eq__(self, other):
-        return (self.id is None or other.id is None or self.id == other.id) and self.username == other.username
+        return (self.id is None or other.id is None or self.id == other.id) and self.username == other.username \
+               and self.last_name == other.last_name
 
     def id_or_nmx(gr):
         if gr.id:
