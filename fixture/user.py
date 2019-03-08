@@ -56,7 +56,8 @@ class UH:
             wd = self.app.wd
             self.open_home_page()
             self.user_cache=[]
-            for element in wd.find_elements_by_css_selector("tr"):
+#            for element in wd.find_elements_by_css_selector("tr"):
+            for element in wd.find_elements_by_name("entry"):
                 if element.text != 'Last name First name Address All e-mail All phones':
                     last = element.find_elements_by_tag_name("td")[1].text
                     user = element.find_elements_by_tag_name("td")[2].text

@@ -34,7 +34,7 @@ def test_edit_user(app):
     if app.user.count() == 0:
         app.user.add(User(**user_begin))
     old_user = app.user.get_user_list()
-    index = randrange(1,len(old_user))
+    index = randrange(len(old_user))
     user = User(**user_edit)
     user.id = old_user[index].id
     app.user.change_by_index(index, user)
@@ -48,7 +48,7 @@ def test_delete_user(app):
     if app.user.count() == 0:
         app.user.add(User(**user_begin))
     old_user = app.user.get_user_list()
-    index = randrange(1,len(old_user))
+    index = randrange(len(old_user))
     indexid = old_user[index].id
     app.user.delete_by_index(indexid)
     new_user = app.user.get_user_list()
