@@ -8,7 +8,7 @@ import pytest
 
 
 def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + string.punctuation + " " * 10
+    symbols = string.ascii_letters + string.digits
     return prefix + ''.join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 
@@ -22,20 +22,18 @@ def random_email(maxlen):
     return ''.join([random.choice(symbols) for i in range(random.randrange(maxlen))]) + "@ya.ru"
 
 testdata = [
-    User(last_name=last_name, username=username,nickname=nickname,title=title,address=address, homephone=homephone,
-         workphone=workphone,mobilephone=mobilephone,secondaryphone=secondaryphone,email=email,email2=email2,email3=email3)
-    for last_name in random_string("last_name",10)
-    for username in random_string("username",10)
-    for nickname in random_string("nickname",10)
-    for title in random_string("title",8)
-    for address in random_string("address",40)
-    for homephone in random_number(7)
-    for workphone in [random_number(7)]
-    for mobilephone in [random_number(7)]
-    for secondaryphone in [random_number(7)]
-    for email in [random_email(7)]
-    for email2 in [random_email(7)]
-    for email3 in [random_email(7)]
+    User(last_name=random_string("last_name",10),
+         username=random_string("username",10),
+         nickname=random_string("nickname",10),
+         title=random_string("title",8),
+         address=random_string("address",40),
+         homephone=random_number(7),
+         workphone=random_number(7),
+         mobilephone=random_number(7),
+         secondaryphone=random_number(7),
+         email=random_email(7),
+         email2=random_email(7),
+         email3=random_email(7))
 ]
 user_begin = {
     "last_name": "last_name",
