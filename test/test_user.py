@@ -1,39 +1,24 @@
 # -*- coding: utf-8 -*-
 from model.user import User
+from fixture.additional import MH
 from random import randrange
-import random
-import string
 import re
 import pytest
 
 
-def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits
-    return prefix + ''.join([random.choice(symbols) for i in range(random.randrange(maxlen))])
-
-
-def random_number(maxlen):
-    symbols = string.digits
-    return ''.join([random.choice(symbols) for i in range(random.randrange(maxlen))])
-
-
-def random_email(maxlen):
-    symbols = string.ascii_letters
-    return ''.join([random.choice(symbols) for i in range(random.randrange(maxlen))]) + "@ya.ru"
-
 testdata = [
-    User(last_name=random_string("last_name",10),
-         username=random_string("username",10),
-         nickname=random_string("nickname",10),
-         title=random_string("title",8),
-         address=random_string("address",40),
-         homephone=random_number(7),
-         workphone=random_number(7),
-         mobilephone=random_number(7),
-         secondaryphone=random_number(7),
-         email=random_email(7),
-         email2=random_email(7),
-         email3=random_email(7))
+    User(last_name=MH.random_string("last_name",10),
+         username=MH.random_string("username",10),
+         nickname=MH.random_string("nickname",10),
+         title=MH.random_string("title",8),
+         address=MH.random_string("address",40),
+         homephone=MH.random_number(7),
+         workphone=MH.random_number(7),
+         mobilephone=MH.random_number(7),
+         secondaryphone=MH.random_number(7),
+         email=MH.random_email(7),
+         email2=MH.random_email(7),
+         email3=MH.random_email(7))
 ]
 user_begin = {
     "last_name": "last_name",
