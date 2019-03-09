@@ -15,7 +15,6 @@ class UH:
                       user.workphone, user.secondaryphone, user.email, user.email2, user.email3)
         wd.find_element_by_xpath("//input[21]").click()#confirm
         self.open_home_page()
-        time.sleep(2)#check
         self.user_cache = None
 
     def change_by_index(self,index, user):
@@ -26,7 +25,6 @@ class UH:
                       user.workphone, user.secondaryphone, user.email,user.email2,user.email3)
         wd.find_element_by_name("update").click()
         self.open_home_page()
-        time.sleep(2)#check
         self.user_cache = None
 
 
@@ -37,7 +35,6 @@ class UH:
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
         self.open_home_page()
-        time.sleep(2)#check
         self.user_cache = None
 
 
@@ -54,7 +51,7 @@ class UH:
     user_cache = None
 
     def get_user_list(self):
-#        if self.user_cache is None:
+        if self.user_cache is None:
             wd = self.app.wd
             self.open_home_page()
             self.user_cache=[]
@@ -68,7 +65,7 @@ class UH:
                 all_phones = cells[5].text
                 all_email = cells[4].text
                 self.user_cache.append(User(last_name=last, username=user, id=id, address=address, all_phone=all_phones,all_email=all_email))
-            return (self.user_cache)
+        return (self.user_cache)
 
     def open_contact_to_edit_by_index(self,index):
         wd = self.app.wd

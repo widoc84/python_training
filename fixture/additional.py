@@ -1,3 +1,5 @@
+import random
+import string
 
 
 class MH:
@@ -28,3 +30,15 @@ class MH:
         MH.change_element(self, "email", email1)
         MH.change_element(self, "email2", email2)
         MH.change_element(self, "email3", email3)
+
+    def random_string(prefix, maxlen):
+        symbols = string.ascii_letters + string.digits + string.punctuation + " " * 10
+        return prefix + ''.join([random.choice(symbols) for i in range(random.randrange(maxlen))])
+
+    def random_number(maxlen):
+        symbols = string.digits
+        return ''.join([random.choice(symbols) for i in range(random.randrange(maxlen))])
+
+    def random_email(maxlen):
+        symbols = string.ascii_letters
+        return ''.join([random.choice(symbols) for i in range(random.randrange(maxlen))]) + "@ya.ru"

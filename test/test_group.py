@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from model.group import Group
 from random import randrange
+from fixture.additional import MH
+import pytest
+
+
 
 group_begin = {
     "name": "test1",
@@ -9,14 +13,20 @@ group_begin = {
 }
 
 group_edit = {
-    "name": "test1edit",
-    "header": "testheader1edit",
-    "footer": "testfooter1edit"
+    "name": "test1",
+    "header": "testheader1",
+    "footer": "testfooter1"
 }
 
-def test_add_group(app):
+testdata = [
+    Group(name=name, header=header,footer=footer)
+    for name in ["", MH.random_string("name",10)]
+    for header in ["", MH.random_string("header",20)]
+    for footer in ["", MH.random_string("footer",20)]
+]
+@pytest.mark.parametrize("group", testdata, ids=[repr(x) for x in testdata])
+def test_add_group(app, group):
     old_groups = app.group.get_group_list()
-    group = Group(**group_begin)
     app.group.create(group)
     assert len(old_groups) + 1 == app.group.count()
     new_groups = app.group.get_group_list()

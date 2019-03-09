@@ -1,8 +1,42 @@
 # -*- coding: utf-8 -*-
 from model.user import User
 from random import randrange
+import random
+import string
 import re
+import pytest
 
+
+def random_string(prefix, maxlen):
+    symbols = string.ascii_letters + string.digits + string.punctuation + " " * 10
+    return prefix + ''.join([random.choice(symbols) for i in range(random.randrange(maxlen))])
+
+
+def random_number(maxlen):
+    symbols = string.digits
+    return ''.join([random.choice(symbols) for i in range(random.randrange(maxlen))])
+
+
+def random_email(maxlen):
+    symbols = string.ascii_letters
+    return ''.join([random.choice(symbols) for i in range(random.randrange(maxlen))]) + "@ya.ru"
+
+testdata = [
+    User(last_name=last_name, username=username,nickname=nickname,title=title,address=address, homephone=homephone,
+         workphone=workphone,mobilephone=mobilephone,secondaryphone=secondaryphone,email=email,email2=email2,email3=email3)
+    for last_name in random_string("last_name",10)
+    for username in random_string("username",10)
+    for nickname in random_string("nickname",10)
+    for title in random_string("title",8)
+    for address in random_string("address",40)
+    for homephone in random_number(7)
+    for workphone in [random_number(7)]
+    for mobilephone in [random_number(7)]
+    for secondaryphone in [random_number(7)]
+    for email in [random_email(7)]
+    for email2 in [random_email(7)]
+    for email3 in [random_email(7)]
+]
 user_begin = {
     "last_name": "last_name",
     "username": "name",
@@ -34,9 +68,9 @@ user_edit = {
 }
 
 
-def test_add_user(app):
+@pytest.mark.parametrize("user", testdata, ids=[repr(x) for x in testdata])
+def test_add_user(app, user):
     old_user = app.user.get_user_list()
-    user = User(**user_begin)
     app.user.add(user)
     assert len(old_user) + 1 == app.user.count()
     new_user = app.user.get_user_list()
