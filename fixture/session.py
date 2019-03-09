@@ -1,4 +1,4 @@
-import time
+import fixture.application as apps
 
 class SH:
 
@@ -7,7 +7,7 @@ class SH:
 
     def login(self, username, password):
         wd = self.app.wd
-        wd.get("http://localhost/addressbook/group.php")
+        wd.get(apps.Applicaton.base_url)
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
