@@ -19,10 +19,8 @@ group_edit = {
 }
 
 testdata = [
-    Group(name=name, header=header,footer=footer)
-    for name in [MH.random_string("name",10)]
-    for header in [MH.random_string("header",20)]
-    for footer in [MH.random_string("footer",20)]
+    Group(name=MH.random_string("name",10), header=MH.random_string("header",20),footer=MH.random_string("footer",20))
+    for i in range(5)
 ]
 @pytest.mark.parametrize("group", testdata, ids=[repr(x) for x in testdata])
 def test_add_group(app, group):
