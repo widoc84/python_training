@@ -1,29 +1,11 @@
 # -*- coding: utf-8 -*-
 from model.group import Group
 from random import randrange
-from fixture.additional import MH
-import pytest
 
 
 
-group_begin = {
-    "name": "test1",
-    "header": "testheader1",
-    "footer": "testfooter1"
-}
-
-group_edit = {
-    "name": "test1",
-    "header": "testheader1",
-    "footer": "testfooter1"
-}
-
-testdata = [
-    Group(name=MH.random_string("name",10), header=MH.random_string("header",20),footer=MH.random_string("footer",20))
-    for i in range(5)
-]
-@pytest.mark.parametrize("group", testdata, ids=[repr(x) for x in testdata])
-def test_add_group(app, group):
+def test_add_group(app, json_groups):
+    group = json_groups
     old_groups = app.group.get_group_list()
     app.group.create(group)
     assert len(old_groups) + 1 == app.group.count()
