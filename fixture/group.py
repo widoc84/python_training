@@ -16,9 +16,15 @@ class GH:
         wd.find_elements_by_name("selected[]")[index].click()
         wd.find_element_by_name("delete").click()
         self.open_group_page()
-        time.sleep(2)
         self.group_cache = None
 
+    def delete_by_id(self, id):
+        wd = self.app.wd
+        self.open_group_page()
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+        wd.find_element_by_name("delete").click()
+        self.open_group_page()
+        self.group_cache = None
 
     def create(self, group):
         wd = self.app.wd
@@ -45,7 +51,16 @@ class GH:
         add.edit_group(self, group.name, group.header, group.footer)
         wd.find_element_by_name("update").click()
         self.open_group_page()
-        time.sleep(2)
+        self.group_cache = None
+
+    def edit_by_id(self, id, group):
+        wd = self.app.wd
+        self.open_group_page()
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+        wd.find_element_by_name("edit").click()
+        add.edit_group(self, group.name, group.header, group.footer)
+        wd.find_element_by_name("update").click()
+        self.open_group_page()
         self.group_cache = None
 
     def edit(self, group):

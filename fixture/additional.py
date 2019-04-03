@@ -7,10 +7,11 @@ class MH:
         self.app = app
 
     def change_element(self, element, element_name):
-        wd = self.app.wd
-        wd.find_element_by_name(element).click()
-        wd.find_element_by_name(element).clear()
-        wd.find_element_by_name(element).send_keys(element_name)
+        if element_name != None:
+            wd = self.app.wd
+            wd.find_element_by_name(element).click()
+            wd.find_element_by_name(element).clear()
+            wd.find_element_by_name(element).send_keys(element_name)
 
     def edit_group(self, name, header, footer):
         MH.change_element(self, "group_name", name)

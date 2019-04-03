@@ -20,6 +20,7 @@ class UH:
     def change_by_index(self,index, user):
         wd = self.app.wd
         self.open_home_page()
+        user = user
         wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
         add.edit_user(self, user.username, user.last_name, user.nickname, user.title, user.address, user.homephone, user.mobilephone,
                       user.workphone, user.secondaryphone, user.email,user.email2,user.email3)
@@ -27,6 +28,17 @@ class UH:
         self.open_home_page()
         self.user_cache = None
 
+    def change_by_id(self,id, user):
+        wd = self.app.wd
+        self.open_home_page()
+        el =wd.find_element_by_css_selector("input[value='%s']" % id)
+        el.find_element_by_xpath("//img[@alt='Edit']").click()
+        user = user
+        add.edit_user(self, user.username, user.last_name, user.nickname, user.title, user.address, user.homephone, user.mobilephone,
+                      user.workphone, user.secondaryphone, user.email,user.email2,user.email3)
+        wd.find_element_by_name("update").click()
+        self.open_home_page()
+        self.user_cache = None
 
     def delete_by_index(self, indexid):
         wd = self.app.wd
@@ -36,6 +48,16 @@ class UH:
         wd.switch_to_alert().accept()
         self.open_home_page()
         self.user_cache = None
+
+    def delete_by_id(self, id):
+        wd = self.app.wd
+        self.open_home_page()
+        wd.find_element_by_id(str(id)).click()
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        wd.switch_to_alert().accept()
+        self.open_home_page()
+        self.user_cache = None
+
 
 
     def count(self):

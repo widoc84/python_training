@@ -2,42 +2,45 @@
 from model.user import User
 from random import randrange
 import re
+import random
 
 
 
-def test_add_user(app, json_users):
+def test_add_user(app,db, json_users):
     user = json_users
-    old_user = app.user.get_user_list()
+    old_user = db.get_user_list()
     app.user.add(user)
-    assert len(old_user) + 1 == app.user.count()
-    new_user = app.user.get_user_list()
+    new_user = db.get_user_list()
     old_user.append(user)
     assert sorted(old_user, key=User.id_or_nmx) == sorted(new_user, key=User.id_or_nmx)
 
-def test_edit_user(app):
-    if app.user.count() == 0:
-        app.user.add(User(**user_begin))
-    old_user = app.user.get_user_list()
-    index = randrange(len(old_user))
-    user = User(**user_edit)
-    user.id = old_user[index].id
-    app.user.change_by_index(index, user)
-    assert len(old_user) == app.user.count()
+def test_edit_user(app,db,json_users,check_ui):
+    user_j = json_users
+    if len(db.get_group_list()) == 0:
+        app.user.add(user_j)
+    old_user = db.get_user_list()
+    user = random.choice(old_user)
+    app.user.change_by_id(user.id, user)
+    new_user = db.get_user_list()
+    assert len(old_user) == len(new_user)
     new_user = app.user.get_user_list()
-    old_user[index] = user
-    assert sorted(old_user, key=User.id_or_nmx) == sorted(new_user, key=User.id_or_nmx)
+    if check_ui:
+        assert sorted(old_user, key=User.id_or_nmx) == sorted(new_user, key=User.id_or_nmx)
 
-
-def test_delete_user(app):
-    if app.user.count() == 0:
-        app.user.add(User(**user_begin))
-    old_user = app.user.get_user_list()
-    index = randrange(len(old_user))
-    indexid = old_user[index].id
-    app.user.delete_by_index(indexid)
+def test_delete_user(app,db,json_users,check_ui):
+    user_j = json_users
+    if len(db.get_group_list()) == 0:
+        app.user.add(user_j)
+    old_user = db.get_user_list()
+    user = random.choice(old_user)
+    app.user.delete_by_id(user.id)
+    new_user = db.get_user_list()
+    assert len(old_user) - 1 == len(new_user)
+    old_user.remove(user)
+    assert old_user == new_user
     new_user = app.user.get_user_list()
-    old_user[index:index+1] = []
-    assert sorted(old_user, key=User.id_or_nmx) == sorted(new_user, key=User.id_or_nmx)
+    if check_ui:
+        assert sorted(old_user, key=User.id_or_nmx) == sorted(new_user, key=User.id_or_nmx)
 
 
 def test_check_random_contact(app):
