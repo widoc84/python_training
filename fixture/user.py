@@ -89,23 +89,20 @@ class UH:
                 self.user_cache.append(User(last_name=last, username=user, id=id, address=address, all_phone=all_phones,all_email=all_email))
         return (self.user_cache)
 
-    def open_contact_to_edit_by_index(self,index):
+    def open_contact_to_edit_by_id(self,id):
         wd = self.app.wd
         self.open_home_page()
-        row = wd.find_elements_by_name("entry")[index]
-        cell = row.find_elements_by_tag_name("td")[7]
-        cell.find_element_by_tag_name("a").click()
+        wd.find_element_by_css_selector("tr[name='entry'] a[href*='edit.php?id=%s']" % id).click()
 
-    def open_contact_view_by_index(self,index):
+    def open_contact_view_by_id(self,id):
         wd = self.app.wd
         self.open_home_page()
-        row = wd.find_elements_by_name("entry")[index]
-        cell = row.find_elements_by_tag_name("td")[6]
-        cell.find_element_by_tag_name("a").click()
+        wd.find_element_by_css_selector("tr[name='entry'] a[href*='vcard.php?id=%s']" % id).click()
 
-    def get_user_info_from_edit(self, index):
+
+    def get_user_info_from_edit(self, id):
         wd = self.app.wd
-        self.open_contact_to_edit_by_index(index)
+        self.open_contact_to_edit_by_id(id)
         username = wd.find_element_by_name("firstname").get_attribute("value")
         last = wd.find_element_by_name("lastname").get_attribute("value")
         id = wd.find_element_by_name("id").get_attribute("value")

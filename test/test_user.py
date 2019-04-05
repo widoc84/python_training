@@ -43,16 +43,17 @@ def test_delete_user(app,db,json_users,check_ui):
         assert sorted(old_user, key=User.id_or_nmx) == sorted(new_user, key=User.id_or_nmx)
 
 
-def test_check_random_contact(app):
-    old_user = app.user.get_user_list()
+def test_check_random_contact(app,db):
+    old_user = sorted(db.get_user_list(),key=User.id_or_nmx)
     index = randrange(len(old_user))
     contact_from_home_page = old_user[index]
-    contact_from_edit_page = app.user.get_user_info_from_edit(index)
+    index2 = contact_from_home_page.id
+    contact_from_edit_page = app.user.get_user_info_from_edit(index2)
     assert contact_from_home_page.last_name == contact_from_edit_page.last_name
     assert contact_from_home_page.username == contact_from_edit_page.username
     assert contact_from_home_page.address == contact_from_edit_page.address
-    assert contact_from_home_page.all_phone == merge_phones_like_on_home_page(contact_from_edit_page)
-    assert contact_from_home_page.all_email == merge_email_like_on_home_page(contact_from_edit_page)
+    assert merge_phones_like_on_home_page(contact_from_home_page) == merge_phones_like_on_home_page(contact_from_edit_page)
+    assert merge_email_like_on_home_page(contact_from_home_page) == merge_email_like_on_home_page(contact_from_edit_page)
 
 
 def test_phones_on_home_page(app):
