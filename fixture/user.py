@@ -1,6 +1,7 @@
 import time
 from fixture.additional import MH as add
 from model.user import User
+import random
 
 
 class UH:
@@ -98,6 +99,17 @@ class UH:
         wd = self.app.wd
         self.open_home_page()
         wd.find_element_by_css_selector("tr[name='entry'] a[href*='vcard.php?id=%s']" % id).click()
+
+    def add_group_by_id(self,id):
+        wd = self.app.wd
+        self.open_home_page()
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+        list = wd.find_elements_by_css_selector("select[name='to_group'] option")
+        index = random.randrange(len(list))
+        list[index].click()
+        check = list[index].get_attribute('value')
+        wd.find_element_by_css_selector("input[type='submit']").click()
+        return check
 
 
     def get_user_info_from_edit(self, id):

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from model.user import User
 from random import randrange
+from fixture.orm import ORMFixture
 import re
 import random
 
@@ -69,6 +70,16 @@ def test_phones_on_view_page(app):
     assert contact_from_view_page.workphone == contact_from_edit_page.workphone
     assert contact_from_view_page.mobilephone == contact_from_edit_page.mobilephone
     assert contact_from_view_page.secondaryphone == contact_from_edit_page.secondaryphone
+
+def test_add_group_to_users(app,db):
+    user = sorted(db.get_user_list(), key=User.id_or_nmx)
+    index = randrange(len(user))
+    id = user[index].id
+    group = app.user.add_group_by_id(id)
+    s= ORMFixture.get_users_in_group(group)
+    assert s
+
+
 
 def clear(s):
     return re.sub("[() -]", "",s)
