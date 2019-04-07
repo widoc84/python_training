@@ -94,10 +94,11 @@ def test_delete_group_to_users(app,db,orm):
         user_in_group = orm.get_users_in_group(group_choise)
     random_user = random.choice(user_in_group)
     app.user.delete_user_in_group(group_choise,random_user)
-    dbgrup = db.get_group_list()
-    group_choise = dbgrup[random_group]
-    new_user_in_group = orm.get_users_in_group(group_choise)
-    assert random_user not in new_user_in_group
+    user_in_group.remove(random_user)
+#    dbgrup = db.get_group_list()
+#    group_choise = dbgrup[random_group]
+#    new_user_in_group = orm.get_users_in_group(group_choise)
+    assert random_user not in user_in_group
 
 
 
