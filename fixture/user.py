@@ -100,17 +100,23 @@ class UH:
         self.open_home_page()
         wd.find_element_by_css_selector("tr[name='entry'] a[href*='vcard.php?id=%s']" % id).click()
 
-    def add_group_by_id(self,id):
+    def add_group_by_id(self,userid,groupid):
         wd = self.app.wd
         self.open_home_page()
-        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+        wd.find_element_by_css_selector("input[value='%s']" % userid).click()
         list = wd.find_elements_by_css_selector("select[name='to_group'] option")
-        index = random.randrange(len(list))
-        list[index].click()
-        check = list[index].get_attribute('value')
+        check = wd.find_element_by_css_selector("select[name='to_group'] option[value='%s']" % groupid).text
+        wd.find_element_by_css_selector("select[name='to_group'] option[value='%s']" % groupid).click()
         wd.find_element_by_css_selector("input[type='submit']").click()
         return check
 
+    def delete_user_in_group(self,group,user):
+        wd = self.app.wd
+        self.open_home_page()
+        wd.find_element_by_css_selector('select[name="group"] option[value="%s"]' % group.id).click()
+        wd.find_element_by_css_selector("input[value='%s']" % user.id).click()
+        wd.find_element_by_css_selector("input[value='Delete']").click()
+        wd.switch_to_alert().accept()
 
     def get_user_info_from_edit(self, id):
         wd = self.app.wd

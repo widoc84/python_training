@@ -3,6 +3,7 @@ from fixture.session import SH
 from fixture.group import GH
 from fixture.user import UH
 from fixture.additional import MH
+from fixture.orm import ORMFixture
 
 
 class Applicaton:

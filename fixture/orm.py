@@ -50,7 +50,7 @@ class ORMFixture:
 
     @db_session
     def get_users_in_group(self, group):
-        orm_group = list(select(g for g in ORMFixture.ORMGroup if g.id == group))[0]
+        orm_group = list(select(g for g in ORMFixture.ORMGroup if g.id == group.id))[0]
         return self.convert_users_to_model(orm_group.users)
 
     @db_session

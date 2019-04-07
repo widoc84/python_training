@@ -4,6 +4,7 @@ from random import randrange
 from fixture.orm import ORMFixture
 import re
 import random
+import time
 
 
 
@@ -71,14 +72,28 @@ def test_phones_on_view_page(app):
     assert contact_from_view_page.mobilephone == contact_from_edit_page.mobilephone
     assert contact_from_view_page.secondaryphone == contact_from_edit_page.secondaryphone
 
-def test_add_group_to_users(app,db):
-    user = sorted(db.get_user_list(), key=User.id_or_nmx)
-    index = randrange(len(user))
-    id = user[index].id
-    group = app.user.add_group_by_id(id)
-    s= ORMFixture.get_users_in_group(group)
-    assert s
+def test_add_group_to_users(app,db,orm):
+    dbgrup = db.get_group_list()
+    group_choise = random.choice(dbgrup)
+    user_in_group = orm.get_users_not_in_group(group_choise)
+    index = randrange(len(user_in_group))
+    id = user_in_group[index].id
+    app.user.add_group_by_id(id, group_choise.id)
+    new_user_in_group = orm.get_users_in_group(group_choise)
+    assert user_in_group[index] in new_user_in_group
 
+def test_delete_group_to_users(app,db,orm):
+    dbgrup = db.get_group_list()
+    group_choise = random.choice(dbgrup)
+    user_in_group = orm.get_users_in_group(group_choise)
+    if user_in_group is None:
+        user_in_group_check = orm.get_users_not_in_group(group_choise)
+        random_user_check = random.choice(user_in_group_check)
+        app.user.add_group_by_id(random_user_check.id, group_choise.id)
+    random_user = random.choice(user_in_group)
+    app.user.delete_user_in_group(group_choise,random_user)
+    new_user_in_group = orm.get_users_in_group(group_choise)
+    assert random_user not in new_user_in_group
 
 
 def clear(s):
