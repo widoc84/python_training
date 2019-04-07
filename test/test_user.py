@@ -100,6 +100,7 @@ def test_delete_group_to_users(app,db,orm):
     assert random_user not in new_user_in_group
 
 
+
 def clear(s):
     return re.sub("[() -]", "",s)
 
