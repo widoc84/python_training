@@ -84,14 +84,18 @@ def test_add_group_to_users(app,db,orm):
 
 def test_delete_group_to_users(app,db,orm):
     dbgrup = db.get_group_list()
-    group_choise = random.choice(dbgrup)
+    random_group = randrange(len(dbgrup))
+    group_choise = dbgrup[random_group]
     user_in_group = orm.get_users_in_group(group_choise)
-    if user_in_group is None:
+    while len(user_in_group) <= 2:
         user_in_group_check = orm.get_users_not_in_group(group_choise)
         random_user_check = random.choice(user_in_group_check)
         app.user.add_group_by_id(random_user_check.id, group_choise.id)
+        user_in_group = orm.get_users_in_group(group_choise)
     random_user = random.choice(user_in_group)
     app.user.delete_user_in_group(group_choise,random_user)
+    dbgrup = db.get_group_list()
+    group_choise = dbgrup[random_group]
     new_user_in_group = orm.get_users_in_group(group_choise)
     assert random_user not in new_user_in_group
 
