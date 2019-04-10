@@ -85,8 +85,15 @@ def test_phones_on_view_page(app):
     assert contact_from_view_page.mobilephone == contact_from_edit_page.mobilephone
     assert contact_from_view_page.secondaryphone == contact_from_edit_page.secondaryphone
 
-def test_add_group_to_users(app,db,orm):
+def test_add_group_to_users(app,db,json_groups,json_users,orm):
     dbgrup = db.get_group_list()
+    while len(dbgrup)  <= 2:
+        app.group.create(json_groups)
+        dbgrup = db.get_group_list()
+    dbuser = db.get_user_list()
+    while len(dbuser)  <= 2:
+        app.user.add(json_users)
+        dbgrup = db.get_user_list()
     group_choise = random.choice(dbgrup)
     user_in_group = orm.get_users_not_in_group(group_choise)
     index = randrange(len(user_in_group))
@@ -95,8 +102,15 @@ def test_add_group_to_users(app,db,orm):
     new_user_in_group = orm.get_users_in_group(group_choise)
     assert user_in_group[index] in new_user_in_group
 
-def test_delete_group_to_users(app,db,orm):
+def test_delete_group_to_users(app,db,json_groups,json_users,orm):
     dbgrup = db.get_group_list()
+    while len(dbgrup)  <= 2:
+        app.group.create(json_groups)
+        dbgrup = db.get_group_list()
+    dbuser = db.get_user_list()
+    while len(dbuser)  <= 2:
+        app.user.add(json_users)
+        dbgrup = db.get_user_list()
     random_group = randrange(len(dbgrup))
     group_choise = dbgrup[random_group]
     user_in_group = orm.get_users_in_group(group_choise)
