@@ -58,17 +58,16 @@ def test_check_random_contact(app,db):
     assert merge_email_like_on_home_page(contact_from_home_page) == merge_email_like_on_home_page(contact_from_edit_page)
 
 def test_check_all_contact(app,db):
-    old_user = sorted(db.get_user_list(),key=User.id_or_nmx)
-    for i in range(len(old_user)):
+    db_user = sorted(db.get_user_list(),key=User.id_or_nmx)
+    home_user = sorted(app.user.get_user_list(), key=User.id_or_nmx)
+    for i in range(len(db_user)):
         index = i
-        contact_from_home_page = old_user[index]
-        index2 = contact_from_home_page.id
-        contact_from_edit_page = app.user.get_user_info_from_edit(index2)
-        assert contact_from_home_page.last_name == contact_from_edit_page.last_name
-        assert contact_from_home_page.username == contact_from_edit_page.username
-        assert contact_from_home_page.address == contact_from_edit_page.address
-        assert merge_phones_like_on_home_page(contact_from_home_page) == merge_phones_like_on_home_page(contact_from_edit_page)
-        assert merge_email_like_on_home_page(contact_from_home_page) == merge_email_like_on_home_page(contact_from_edit_page)
+        user_db = db_user[index]
+        user_home = home_user[index]
+        assert user_db.last_name == user_home.last_name
+        assert user_db.username == user_home.username
+        assert user_db.address == user_home.address
+        assert merge_email_like_on_home_page(user_db) == user_home.all_email
 
 
 def test_phones_on_home_page(app):
