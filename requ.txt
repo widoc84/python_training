@@ -1,5 +1,5 @@
 pytest
-pytest bdd
+pytest_bdd
 selenium
 jsonpickle
 pony
