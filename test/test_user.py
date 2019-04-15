@@ -57,17 +57,23 @@ def test_check_random_contact(app,db):
     assert merge_phones_like_on_home_page(contact_from_home_page) == merge_phones_like_on_home_page(contact_from_edit_page)
     assert merge_email_like_on_home_page(contact_from_home_page) == merge_email_like_on_home_page(contact_from_edit_page)
 
-def test_check_all_contact(app,db):
+def test_check_all_contact(app,db,orm):
     db_user = sorted(db.get_user_list(),key=User.id_or_nmx)
     home_user = sorted(app.user.get_user_list(), key=User.id_or_nmx)
     for i in range(len(db_user)):
         index = i
         user_db = db_user[index]
         user_home = home_user[index]
+        list = [user_db.homephone,user_db.mobilephone,user_db.workphone,user_db.secondaryphone]
+        for i in list:
+            if str(i) == '':
+                list.remove(i)
+        phone = "\n".join(list)
         assert user_db.last_name == user_home.last_name
         assert user_db.username == user_home.username
         assert user_db.address == user_home.address
         assert merge_email_like_on_home_page(user_db) == user_home.all_email
+        assert phone == user_home.all_phone
 
 
 def test_phones_on_home_page(app):
@@ -135,6 +141,10 @@ def merge_phones_like_on_home_page(user):
     return "\n".join(filter(lambda x: x!=" ",
                             map(lambda x: clear(x), filter(lambda x: x is not None,
                                                            [user.homephone, user.mobilephone,user.workphone,user.secondaryphone]))))
+def merge_phones_like_on_home(user):
+    return "\n".join(filter(lambda x: x!=" ",
+                            map(lambda x: clear(x), filter(lambda x: x is not None,
+                                                           [user.homephone, user.mobilephone,user.workphone]))))
 
 def merge_email_like_on_home_page(user):
     return "\n".join(filter(lambda x: x!=" ",
