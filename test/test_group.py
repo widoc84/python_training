@@ -5,6 +5,7 @@ import pytest
 import allure_pytest
 import allure
 
+@allure.feature('Tests Group')
 @allure.step('Test create Group')
 def test_add_group(app, db, json_groups):
     with allure.step('Get new Group'):
