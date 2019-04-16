@@ -2,9 +2,10 @@
 from model.group import Group
 import random
 import pytest
+import allure_pytest
 import allure
 
-
+@allure.step('Test create Group')
 def test_add_group(app, db, json_groups):
     with allure.step('Get new Group'):
         group = json_groups
@@ -17,6 +18,7 @@ def test_add_group(app, db, json_groups):
         old_groups.append(group)
         assert sorted(old_groups, key=Group.id_or_nmx) == sorted(new_groups, key=Group.id_or_nmx)
 
+@allure.step('Test edit Group')
 def test_edit_group(app, db, json_groups, check_ui):
     with allure.step('Get new Group'):
         group_j = json_groups
@@ -35,6 +37,7 @@ def test_edit_group(app, db, json_groups, check_ui):
         if check_ui:
             assert sorted(old_groups, key=Group.id_or_nmx) == sorted(new_groups, key=Group.id_or_nmx)
 
+@allure.step('Test delete Group')
 def test_delete_group(app, db, json_groups, check_ui):
     with allure.step('Get new Group'):
         group = json_groups
