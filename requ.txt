@@ -1,7 +1,10 @@
 pytest
-pytest_bdd
+pytest-bdd
 selenium
 jsonpickle
 pony
 pymysql
 mysql-connector-python-rf
+lxml
+allure-pytest
+allure-python-commons
