@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from model.user import User
 from random import randrange
+from model.group import Group
 from fixture.orm import ORMFixture
 import re
 import random
@@ -92,6 +93,22 @@ def test_phones_on_view_page(app):
 
 def test_add_group_to_users(app,db,orm):
     dbgrup = db.get_group_list()
+    while len(dbgrup) <= 1:
+        app.group.create(Group(name='test_name',header='test_header',footer='test_footer'))
+        dbgrup = db.get_group_list()
+    dbuser = db.get_user_list()
+    while len(dbuser) <= 1:
+        app.user.add(User(username='firstname',
+                                 last_name='lastname',
+                                 address='address',
+                                 homephone='777777',
+                                 workphone='777777',
+                                 mobilephone='777777',
+                                 secondaryphone='777777',
+                                 email='email@ya.ru',
+                                 email2='email2@ya.ru',
+                                 email3='email3@ya.ru'))
+        dbuser = db.get_group_list()
     group_choise = random.choice(dbgrup)
     user_in_group = orm.get_users_not_in_group(group_choise)
     index = randrange(len(user_in_group))
@@ -102,6 +119,22 @@ def test_add_group_to_users(app,db,orm):
 
 def test_delete_group_to_users(app,db,orm):
     dbgrup = db.get_group_list()
+    while len(dbgrup) <= 1:
+        app.group.create(Group(name='test_name',header='test_header',footer='test_footer'))
+        dbgrup = db.get_group_list()
+    dbuser = db.get_user_list()
+    while len(dbuser) <= 2:
+        app.user.add(User(username='firstname',
+                                 last_name='lastname',
+                                 address='address',
+                                 homephone='777777',
+                                 workphone='777777',
+                                 mobilephone='777777',
+                                 secondaryphone='777777',
+                                 email='email@ya.ru',
+                                 email2='email2@ya.ru',
+                                 email3='email3@ya.ru'))
+        dbuser = db.get_group_list()
     random_group = randrange(len(dbgrup))
     group_choise = dbgrup[random_group]
     user_in_group = orm.get_users_in_group(group_choise)
