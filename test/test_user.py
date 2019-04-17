@@ -65,16 +65,11 @@ def test_check_all_contact(app,db,orm):
         index = i
         user_db = db_user[index]
         user_home = home_user[index]
-        list = [user_db.homephone,user_db.mobilephone,user_db.workphone,user_db.secondaryphone]
-        for i in list:
-            if str(i) == '':
-                list.remove(i)
-        phone = "\n".join(list)
         assert user_db.last_name == user_home.last_name
         assert user_db.username == user_home.username
         assert user_db.address == user_home.address
         assert merge_email_like_on_home_page(user_db) == user_home.all_email
-        assert phone == user_home.all_phone
+        assert merge_phones_like_on_home_page(user_db) == user_home.all_phone
 
 
 def test_phones_on_home_page(app):

@@ -38,7 +38,7 @@ class MH:
 
     def random_number(maxlen):
         symbols = string.digits
-        return ''.join([random.choice(symbols) for i in range(random.randrange(maxlen))])
+        return ''.join([random.choice(symbols) for i in range(maxlen)])
 
     def random_email(maxlen):
         symbols = string.ascii_letters
