@@ -103,7 +103,7 @@ def test_add_group_to_users(app,db,orm):
                                  email='email@ya.ru',
                                  email2='email2@ya.ru',
                                  email3='email3@ya.ru'))
-        dbuser = db.get_group_list()
+        dbuser = db.get_user_list()
     group_choise = random.choice(dbgrup)
     user_in_group = orm.get_users_not_in_group(group_choise)
     index = randrange(len(user_in_group))
@@ -129,7 +129,7 @@ def test_delete_group_to_users(app,db,orm):
                                  email='email@ya.ru',
                                  email2='email2@ya.ru',
                                  email3='email3@ya.ru'))
-        dbuser = db.get_group_list()
+        dbuser = db.get_user_list()
     random_group = randrange(len(dbgrup))
     group_choise = dbgrup[random_group]
     user_in_group = orm.get_users_in_group(group_choise)
